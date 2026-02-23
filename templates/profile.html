@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="max-w-4xl mx-auto px-4 py-10 space-y-6">
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col gap-2">
+    <p class="text-sm text-indigo-200">Perfil</p>
+    <h1 class="text-2xl font-bold">{{ user['name'] or 'Mooder' }}</h1>
+    <p class="text-slate-300 text-sm">E-mail: {{ user['email'] }}</p>
+  </div>
+
+  <div class="grid md:grid-cols-3 gap-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+      <p class="text-sm text-slate-400">Entradas totais</p>
+      <p class="text-3xl font-bold text-indigo-300">{{ total_entries }}</p>
+    </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+      <p class="text-sm text-slate-400">Último humor</p>
+      <p class="text-xl font-semibold">{{ latest['mood_level'] if latest else 'Sem registros' }}</p>
+      {% if latest %}
+        <p class="text-xs text-slate-400">{{ latest['created_at'] }}</p>
+      {% endif %}
+    </div>
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+      <p class="text-sm text-slate-400">Acesso</p>
+      <p class="text-sm text-slate-300">Todas as funcionalidades liberadas enquanto você estiver logado. MoodFlow é gratuito, sem assinatura.</p>
+    </div>
+  </div>
+
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+    <h2 class="font-semibold mb-2">Sobre sua jornada</h2>
+    <p class="text-sm text-slate-300 leading-relaxed">
+      Explore a dashboard para registrar momentos, identificar gatilhos e acompanhar seu mapa emocional. Continue logado para manter acesso total e gratuito às páginas e recursos.
+    </p>
+  </div>
+</section>
+{% endblock %}

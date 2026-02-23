@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+  <div class="bg-gradient-to-br from-indigo-500/15 via-purple-500/10 to-sky-500/10 border border-indigo-500/20 rounded-2xl p-6 flex flex-col gap-2">
+    <p class="text-sm text-indigo-200">Olá, {{ user_name or 'Mooder' }}! Último registro: {{ most_recent }}</p>
+    <h1 class="text-2xl font-bold">Registre seu humor de hoje</h1>
+    <p class="text-slate-200 text-sm">Todas as funcionalidades ficam disponíveis somente para usuários logados. Aproveite o MoodFlow grátis.</p>
+  </div>
+
+  <div class="grid md:grid-cols-5 gap-6">
+    <div class="md:col-span-3 bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="font-semibold">Check-in emocional</h2>
+        <span class="text-xs text-slate-400">Mobile first</span>
+      </div>
+      <form method="post" class="space-y-4">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-sm">
+          {% for mood in ["Ótimo","Bom","Neutro","Ruim","Péssimo"] %}
+          <label class="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-800/60 px-3 py-2">
+            <input type="radio" name="mood_level" value="{{ mood }}" required class="text-indigo-500">
+            <span>{{ mood }}</span>
+          </label>
+          {% endfor %}
+        </div>
+
+        <fieldset class="space-y-2">
+          <legend class="text-sm text-slate-300">Roda de emoções</legend>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" aria-label="Escolha múltiplas emoções">
+            {% for emotion in ["Alegria","Ansiedade","Gratidão","Frustração","Tranquilidade","Empolgação"] %}
+              <label class="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-800/60 px-3 py-2 text-sm">
+                <input type="checkbox" name="emotions" value="{{ emotion }}" class="accent-indigo-500">
+                <span>{{ emotion }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Escolha uma ou várias emoções específicas (multiseleção com toques).</p>
+        </fieldset>
+
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between text-sm text-slate-300">
+            <label for="intensity">Intensidade</label>
+            <span id="intensity-value" class="text-indigo-200 font-semibold" aria-live="polite">5</span>
+          </div>
+          <input id="intensity" name="intensity" type="range" min="1" max="10" value="5" aria-label="Intensidade de 1 a 10" class="accent-indigo-500 w-full">
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm text-slate-300">Categoria de evento</label>
+            <select name="category" class="mt-1 w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <option>Trabalho/Estudos</option>
+              <option>Relacionamentos</option>
+              <option>Saúde/Exercícios</option>
+              <option>Lazer/Hobbies</option>
+              <option>Finanças</option>
+              <option>Família</option>
+              <option>Social</option>
+              <option>Pessoal</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-sm text-slate-300">Tags personalizadas</label>
+            <input name="tags" type="text" placeholder="ex: apresentação, viagem" class="mt-1 w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="text-sm text-slate-300">Notas e reflexões</label>
+          <textarea name="notes" rows="3" class="mt-1 w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="O que mais influenciou seu dia? Pelo que você é grato?"></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-semibold">Salvar registro</button>
+      </form>
+    </div>
+
+    <div class="md:col-span-2 space-y-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+        <h3 class="font-semibold mb-3">Registros recentes</h3>
+        <div class="space-y-3 max-h-80 overflow-y-auto pr-1">
+          {% for entry in entries %}
+            <div class="rounded-xl border border-slate-800 bg-slate-800/70 p-3">
+              <p class="text-sm text-indigo-200 font-semibold">{{ entry['mood_level'] }}</p>
+              <p class="text-xs text-slate-400">{{ entry['created_at'] }}</p>
+              {% if entry['emotions'] %}
+                <p class="text-sm text-slate-200 mt-1">Emoções: {{ entry['emotions'] }}</p>
+              {% endif %}
+              {% if entry['category'] %}
+                <p class="text-xs text-slate-400 mt-1">Evento: {{ entry['category'] }}</p>
+              {% endif %}
+              {% if entry['tags'] %}
+                <p class="text-xs text-slate-400 mt-1">Tags: {{ entry['tags'] }}</p>
+              {% endif %}
+              {% if entry['notes'] %}
+                <p class="text-sm text-slate-300 mt-2">{{ entry['notes'] }}</p>
+              {% endif %}
+            </div>
+          {% else %}
+            <p class="text-slate-400 text-sm">Comece registrando seu humor para ver o histórico.</p>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+        <h3 class="font-semibold mb-2">Dicas rápidas</h3>
+        <ul class="text-sm text-slate-300 space-y-2">
+          <li>• Registre múltiplos momentos no mesmo dia.</li>
+          <li>• Use tags para identificar gatilhos recorrentes.</li>
+          <li>• Tudo salvo localmente em SQLite, sem assinaturas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script>
+  const intensity = document.getElementById('intensity');
+  const value = document.getElementById('intensity-value');
+  if (intensity && value) {
+    intensity.addEventListener('input', () => {
+      value.textContent = intensity.value;
+    });
+  }
+</script>
+{% endblock %}

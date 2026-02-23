@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="max-w-5xl mx-auto px-4 py-10 grid gap-10 lg:grid-cols-2 items-center">
+  <div class="space-y-6">
+    <p class="inline-flex px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-200 text-xs uppercase tracking-wide border border-indigo-500/30">Mobile first • 100% gratuito</p>
+    <h1 class="text-3xl md:text-4xl font-bold leading-tight">MoodFlow — seu diário emocional inteligente</h1>
+    <p class="text-slate-300 leading-relaxed">
+      Registre emoções, descubra padrões e cuide de você. Todas as funcionalidades são liberadas para quem está logado e o MoodFlow permanece totalmente gratuito, sem planos de assinatura.
+    </p>
+    <div class="flex flex-wrap gap-3">
+      <a href="{{ url_for('register') }}" class="px-4 py-3 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-semibold">Começar agora</a>
+      <a href="{{ url_for('login') }}" class="px-4 py-3 rounded-lg border border-slate-800 hover:border-slate-700">Já tenho conta</a>
+    </div>
+    <ul class="grid grid-cols-2 gap-3 text-sm text-slate-300">
+      <li class="flex items-start gap-2"><span class="text-indigo-400">•</span> Check-ins rápidos em 5 níveis de humor</li>
+      <li class="flex items-start gap-2"><span class="text-indigo-400">•</span> Roda de emoções e intensidades</li>
+      <li class="flex items-start gap-2"><span class="text-indigo-400">•</span> Eventos e tags personalizadas</li>
+      <li class="flex items-start gap-2"><span class="text-indigo-400">•</span> Painel analítico e perfil pessoal</li>
+    </ul>
+  </div>
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+    <p class="text-sm text-indigo-200">Faça login para desbloquear o app:</p>
+    <div class="grid gap-3">
+      <div class="rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 p-4">
+        <p class="text-slate-200 font-semibold mb-2">Entrada rápida</p>
+        <p class="text-sm text-slate-300">Seus dados ficam no dispositivo e no banco local SQLite. Nada de assinaturas.</p>
+      </div>
+      <div class="rounded-xl bg-slate-800/60 border border-slate-700 p-4">
+        <p class="text-slate-200 font-semibold mb-2">Navegação intuitiva</p>
+        <p class="text-sm text-slate-300">Dashboard, perfil e insights organizados em páginas leves para mobile.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
